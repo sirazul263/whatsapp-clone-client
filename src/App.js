@@ -1,24 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React, { createContext, useState } from "react";
+import { Route, Switch } from "react-router";
+import ChatBox from "./components/ChatBox/ChatBox";
+import Message from "./components/Message/Message";
+import Messenger from "./components/Messenger/Messenger";
+import Sidebar from "./components/Sidebar/Sidebar";
+import "./styles/style.scss";
+export const UserContext = createContext(null);
 function App() {
+  const [user, setUser] = useState({
+    isSignedIn: false,
+    name: "",
+    email: "",
+    photo: "",
+    error: "",
+    success: false,
+  });
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <UserContext.Provider value={[user, setUser]}>
+      <Switch>
+        <Route exact path="/">
+          <Messenger></Messenger>
+        </Route>
+        <Route path="/chatbox">
+          <ChatBox></ChatBox>
+        </Route>
+      </Switch>
+    </UserContext.Provider>
   );
 }
 
