@@ -1,9 +1,10 @@
 import { Box } from "@material-ui/core";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { UserContext } from "../../App";
 import { Chat } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
 import MenuList from "./MenuList";
+import Drawer from "./InfoDrawer";
 const useStyles = makeStyles({
   header: {
     display: "flex",
@@ -33,16 +34,28 @@ const useStyles = makeStyles({
 const Menu = () => {
   const classes = useStyles();
   const [user, setUser] = useContext(UserContext);
+  const [drawer, setDrawer] = useState(false);
+  const openDrawer = () => {
+    setDrawer(true);
+  };
   return (
-    <Box className={classes.header}>
-      <Box>
-        <img src={user.photo} alt="Dp" className={classes.img} />
+    <>
+      <Box className={classes.header}>
+        <Box>
+          <img
+            src={user.photo}
+            onClick={openDrawer}
+            alt="Dp"
+            className={classes.img}
+          />
+        </Box>
+        <Box className={classes.icons}>
+          <Chat></Chat>
+          <MenuList></MenuList>
+        </Box>
       </Box>
-      <Box className={classes.icons}>
-        <Chat></Chat>
-        <MenuList></MenuList>
-      </Box>
-    </Box>
+      <Drawer open={drawer} setOpen={setDrawer}></Drawer>
+    </>
   );
 };
 
